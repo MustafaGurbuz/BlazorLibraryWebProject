@@ -1,0 +1,28 @@
+﻿@page "/register"
+@inject NavigationManager _navigationManager
+
+
+<div class="row">
+    <div class="col-4">
+        <span class="oi oi-external-link"></span>
+    </div>
+    <div class="col-8">
+        <h3>Register</h3>
+        <br />
+        <input type="text" class="form-control" placeholder="Username" />
+        <br />
+        <input type="password" class="form-control" placeholder="Password" />
+        <br />
+        <input type="password" class="form-control" placeholder="Confirm-Password" />
+        <br />
+        <input type="text" class="form-control" placeholder="Email" />
+        <br />
+        <button class="btn btn-primary" @onclick="RegisterUser">Register</button>
+    </div>
+</div>
+    @code {
+        private void RegisterUser()
+        {
+            _navigationManager.NavigateTo("/", true);
+        }
+    }

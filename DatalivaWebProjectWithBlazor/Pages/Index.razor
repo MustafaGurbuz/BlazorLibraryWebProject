@@ -1,0 +1,131 @@
+﻿@page "/"
+@inject HttpClient Http
+@inject NavigationManager _navigationManager
+
+
+<div class="row TopPart">
+    <div class="col-md-2 LinkAboutSpan">
+        <div class="HeaderPart">
+            <span class="oi oi-circle-check" aria-hidden="true"></span>
+        </div>
+
+    </div>
+    <div class="col-md-10 no-gutters LinkAboutUs">
+        <div class="HeaderPart">
+            <h1> HOME </h1>
+        </div>
+    </div>
+</div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 IndexPage">
+            <h1> > Library Application</h1>
+
+            <p>This component shows us how many book there is on the system.</p>
+        </div>
+    </div>
+
+    <button class="btn btn-success" @onclick="RouteToLoginPage">Add a New Book</button>
+
+    @if (book == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bk in book)
+                {
+                    <tr>
+                        <td>@bk.Id</td>
+                        <td>@bk.Title</td>
+                        <td>@bk.Author</td>
+                        <td>@bk.Publisher</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+    <div class="row">
+        <div class="col-md-12 no-gutters">
+            <div class="middlesideOne">
+                <h1>From Turkish Author</h1>
+                <p>
+                    >> Kiralık Konak, Yakup Kadri Karaosmanoğlu'nun Osmanlı Devleti'nin çöküş döneminde,
+                    İstanbul'da batılılaşma ile geleneksel değerlerin,
+                    kuşaklar arasında farklılaşan değer yargılarının,
+                    yaşam biçimlerinin çatışmasını irdeleyen bir romanıdır.
+                    İlk yayınlanma tarihi: 1922'dir.
+                </p>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row" id="rowOne">
+        <div class="col-md-6 no-gutters">
+            <div class="leftsideTwo">
+                <h2>Most liked books</h2>
+                <p>
+                    >> Satranç, Stefan Zweig'in Brezilya'daki sürgünde yazdığı ve en tanınmış eserlerindendir.
+                    İlk baskısı 250 adet olarak 1942 yılında Buenos Aires'te çıkan hikâyenin,
+                    İngilizce tercümesi 1944'te New York'ta yayımlandı.
+                    Satranç, Almanya'da 1.200.000'den fazla sattı.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6 no-gutters">
+            <div class="rightsideTwo">
+                <h2>Most visited books</h2>
+                <p>
+                    >> Bin Dokuz Yüz Seksen Dört, George Orwell tarafından kaleme alınmış alegorik bir politik romandır.
+                    Hikâyesi distopik bir dünyada geçer. Distopya romanlarının ünlülerindendir.
+                    Özellikle kitapta tanımlanan Big Brother kavramı günümüzde de sıklıkla kullanılmaktadır
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="section">Adress</div>
+        <div class="section">Contact Number</div>
+        <div class="section">Email Adress</div>
+        <div class="section">About Us</div>
+    </div>
+
+    @code {
+        private void RouteToLoginPage()
+        {
+            _navigationManager.NavigateTo("/login", true);
+        }
+
+        private LibraryItem[] book;
+
+        protected override async Task OnInitializedAsync()
+        {
+            book = await Http.GetFromJsonAsync<LibraryItem[]>("sample-data/kitap.json");
+        }
+
+        public class LibraryItem
+        {
+            public int Id { get; set; }
+
+            public string Title { get; set; }
+
+            public string Author { get; set; }
+
+            public string Publisher { get; set; }
+        }
+    }
+
+

@@ -1,0 +1,32 @@
+﻿@page "/login"
+@inject NavigationManager _navigationManager
+
+<div class="login">
+    <h2>LOGIN</h2>
+    <form>
+        <div class="container">
+            <input type="text" required="" name="">
+            <span>Username:</span>
+        </div>
+        <div class="container">
+            <input type="password" required="" name="">
+            <span>Password:</span>
+        </div>
+        <div class="container">
+            <input type="submit" @onclick="LoginUser" value="Login">
+        </div>
+    </form>
+    <a href="#">Did you forget your password >><span>Click Here...</span></a><br />
+    > Click Here For Register: <input type="submit" @onclick="RegisterPage" value="Register" class="btn-danger">
+</div>
+
+@code {
+    private void LoginUser()
+    {
+        _navigationManager.NavigateTo("/", true);
+    }
+    private void RegisterPage()
+    {
+        _navigationManager.NavigateTo("/register", true);
+    }
+}

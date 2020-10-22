@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager _navigationManager
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <button class="btn btn-primary" @onclick="LoginUser">Login</button>
+        <button class="btn btn-danger" @onclick="RegisterUser">Register</button>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@code{
+
+    private void LoginUser ()
+    {
+        _navigationManager.NavigateTo("/login",true);
+    }
+    private void RegisterUser()
+    {
+        _navigationManager.NavigateTo("/register", true);
+    }
+}

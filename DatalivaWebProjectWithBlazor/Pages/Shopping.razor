@@ -1,0 +1,188 @@
+﻿@page "/shopping"
+@using System.Net.Http
+@inject HttpClient Http
+
+<div class="row TopPart">
+    <div class="col-md-2 LinkAboutSpan">
+        <div class="HeaderPart">
+            <span class="oi oi-cart" aria-hidden="true"></span>
+        </div>
+
+    </div>
+    <div class="col-md-10 no-gutters LinkAboutUs">
+        <div class="HeaderPart">
+            <h1>SHOPPING</h1>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12 IndexPageTwo">
+        <h1> > Library Application</h1>
+        <p> >> This component shows us how many book you willing to buy?</p>
+        <p>Enter the book name you wanna buy from our shop...</p>
+    </div>
+</div>
+<br />
+    <div class="row">
+        <div class="col-md-4 no-gutters">
+            <div class="leftside">
+                Name of Book:
+                <input type="text" placeholder="Enter a Book Name" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-3 no-gutters">
+            <div class="buttonSide">
+                <br />
+                <button class="btn btn-success" @onclick="searchFromBook">Search</button>
+            </div>
+        </div>
+        <div class="col-md-5 no-gutters">
+            <div class="rightside">
+                Size of Book:
+                <br />
+                Number of Book >> @numberOfBook
+                <button class="btn btn-warning" @onclick="IncrementTheSize">+</button>
+                <button class="btn btn-info" @onclick="DecreaseTheSize">-</button>
+            </div>
+        </div>
+    </div>
+
+    @if (book == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bk in book)
+                {
+                    <tr>
+                        <td>@bk.Id</td>
+                        <td>@bk.Title</td>
+                        <td>@bk.Author</td>
+                        <td>@bk.Publisher</td>
+                        <td>
+                            <a class="btn btn-primary eBtn">Edit</a>
+                            <a class="btn btn-danger delBtn">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <div class="row">
+        <div class="col-md-4 no-gutters shpT">
+            <div class="lsT">
+                <h2>George Orwell</h2>
+                <p>
+                    >> George Orwell, ya da asıl adıyla Eric Arthur Blair,
+                    20. yüzyıl İngiliz edebiyatının önde gelen kalemleri arasındadır.
+                    Bin Dokuz Yüz Seksen Dört adlı romanı ve
+                    bu romanda yarattığı Big Brother kavramı ile tanınır.<br /><br />
+                    Doğum tarihi: 25 Haziran 1903, Motihari, Hindistan
+                    Ölüm tarihi ve yeri: 21 Ocak 1950, University College Hospital, Londra, Birleşik Krallık
+                    Tam adı: Eric Arthur Blair
+                    Filmler: Bin Dokuz Yüz Seksen Dört, Hayvan Çiftliği, 1984, DAHA FAZLA
+                    Eğitim: Eton College (1917–1921), Wellington Koleji (1917–1917),
+                    St Cyprian Yatılı Okulu (1911–1917)
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 no-gutters shpT">
+            <div class="msT">
+                <h2>Stefan Zweig</h2>
+                <p>
+                    >> Stefan Zweig, Yahudi kökenli Avusturyalı yazar.
+                    Roman, uzun öykü, tiyatro, deneme, şiir, seyahat,
+                    anı türlerinde yirmiden fazla eser verdi.<br /><br />
+                    Doğum tarihi: 28 Kasım 1881, Viyana, Avusturya
+                    Ölüm tarihi ve yeri: 22 Şubat 1942, Petropolis, Rio de Janeiro, Brezilya
+                    Defnedildiği yer: Cemitério Municipal de Petrópolis, Petropolis, Rio de Janeiro, Brezilya
+                    Filmler: Büyük Budapeşte Oteli, Meçhul Bir Kadının Mektupları, DAHA FAZLA
+                    Eşi: Charlotte E. Altmann (e. 1939–1942), Friderike Maria Zweig (e. 1920–1938)
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 no-gutters shpT">
+            <div class="rsT">
+                <h2>Yakup Kadri Karaosmanoğlu</h2>
+                <p>
+                    >> Yakup Kadri Karaosmanoğlu, Türk yazar ve diplomat.
+                    Roman, öykü ve makaleleri ile Türk toplumunun Tanzimat’tan bu yana geçirdiği
+                    değişiklikleri anlatmış bir yazardır. Asıl ününü romanları ile sağlayan
+                    yazarın en ünlü romanları Nur Baba, Kiralık Konak ve Yaban'dır.<br /><br />
+                    Doğum tarihi: 27 Mart 1889, Kahire, Mısır
+                    Ölüm tarihi ve yeri: 13 Aralık 1974, Gülhane Eğitim ve Araştırma Hastanesi, Ankara
+                    Eşi: Ayşe Leman Karaosmanoğlu (e. 1923)
+                    Edebî akım: Realizm
+                    Eğitim: İzmir Atatürk Lisesi
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="section">Adress</div>
+        <div class="section">Contact Number</div>
+        <div class="section">Email Adress</div>
+        <div class="section">About Us</div>
+    </div>
+
+
+    @code {
+        private LibraryItem[] book;
+
+        protected override async Task OnInitializedAsync()
+        {
+            book = await Http.GetFromJsonAsync<LibraryItem[]>("sample-data/kitap.json");
+        }
+
+        public class LibraryItem
+        {
+            public int Id { get; set; }
+
+            public string Title { get; set; }
+
+            public string Author { get; set; }
+
+            public string Publisher { get; set; }
+        }
+
+
+        int numberOfBook = 0;
+
+        private async Task searchFromBook() =>
+            await Http.GetFromJsonAsync<LibraryItem>("sample-data/kitap.json");
+
+
+        void IncrementTheSize()
+        {
+            numberOfBook++;
+        }
+        void DecreaseTheSize()
+        {
+            if (numberOfBook > 0)
+            {
+                numberOfBook--;
+            }
+            else
+            {
+                numberOfBook = 0;
+            }
+
+        }
+    }
+
+
+
+
